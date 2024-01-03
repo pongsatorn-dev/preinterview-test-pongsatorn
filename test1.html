@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preinterview-Test 1</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="input">
+        <input id="number" min="0" type="number">
+        <button id="btn-submit">Submit</button>
+    </div>
+    <div class="result">
+    </div>
+</body>
+<script>
+    $(function() {
+        $('#btn-submit').click(function() {
+            let number = $('#number').val();
+            $('.result').empty();
+            
+            for (let i = 1; i <= number; i++) {
+                let string = "";
+                if (i % 3 === 0) {
+                    string += "Ping ";
+                }
+                if (i % 5 === 0) {
+                    string += "Pong ";
+                }
+                if (string !== "") {
+                    $('.result').append("<p>" + i + " " + string + "<p>");
+                }
+            }
+        });
+    });
+</script>
+</html>

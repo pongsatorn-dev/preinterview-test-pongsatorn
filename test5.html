@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preinterview-Test 5</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="input">
+        <p><label>URL : </label><input id="url" name="url" type="text"> <button id="btn-submit">submit</button></p>
+    </div>
+    <div class="action">
+        <button id="btn-prev">prev</button>
+        <button id="btn-current">current</button>
+        <button id="btn-next">next</button>
+        <button id="btn-all">all</button>
+    </div>
+    <div class="result" style="margin-top: 5px;">
+    </div>
+</body>
+<script>
+    $(function() {
+        let history = [];
+        history['prev'] = [];
+        history['prev']['status'] = false;
+        history['prev']['url'] = "";
+        
+        history['next'] = [];
+        history['next']['status'] = false;
+        history['next']['url'] = "";
+
+        history['current'] = [];
+        history['current']['status'] = false;
+        history['current']['url'] = "";
+        
+        $('#btn-submit').click(function() {
+            if(history['current']['status'] === false) {
+                history['current']['status'] = true;
+                history['current']['url'] = $('#url').val();
+            } else {
+
+                if(history['next']['status'] === true) {
+                    history['next']['status'] = false;
+                    history['next']['url'] = '';
+                }
+                
+                history['prev']['status'] = true;
+                history['prev']['url'] = history['current']['url'];
+
+                history['current']['url'] = $('#url').val();
+            }
+            $('#url').val("");
+        });
+
+        $('#btn-prev').click(function() {
+            if(history['prev']['status'] === false) {
+                $('.result').append("<p>No website to previous<p>");
+            } else {
+                history['next']['status'] = true;
+                history['next']['url'] = history['current']['url'];
+
+                history['current']['url'] = history['prev']['url'];
+
+                history['prev']['status'] = false;
+                history['prev']['url'] = "";
+            }
+        });
+
+        $('#btn-next').click(function() {
+            if(history['next']['status'] === false) {
+                $('.result').append("<p>No website to go<p>");
+            } else {
+
+                history['prev']['status'] = true;
+                history['prev']['url'] = history['current']['url'];
+
+                history['current']['url'] = history['next']['url'];
+
+                history['next']['status'] = false;
+                history['next']['url'] = "";
+            }
+        });
+
+        $('#btn-current').click(function() {
+            if(history['current']['status'] === true) {
+                $('.result').append("<p>Now you on " + history['current']['url'] + "<p>");
+            }
+        });
+
+        $('#btn-all').click(function() {
+            let all = [];
+            for (let key in history) {
+                if (history[key]['status'] === true) {
+                    all.push(history[key]['url']);
+                }
+            }
+            $('.result').append("<p>[" + all.join(", ") + "]<p>");
+        });
+
+        $('button').click(function() {
+            console.log(history)
+        });
+        
+        
+    })
+</script>
+</html>
